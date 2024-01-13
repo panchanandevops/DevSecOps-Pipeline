@@ -1,12 +1,14 @@
 ---
     name: 99 Parallelize Jobs
     
-    on:
-      push:
-        branches:
-          - main
-      pull_request:
+    # on:
+    ##  push:
+    #    branches:
+    #      - main
+    #  pull_request:
     
+    on:
+      workflow_dispatch:
     jobs:
     # FIRST JOB #######################################################################   
       build-test-image:
