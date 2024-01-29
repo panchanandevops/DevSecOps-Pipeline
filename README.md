@@ -58,6 +58,31 @@ Here, the job logs in to the GitHub Container Registry (ghcr.io) using the GitHu
 ```
 This final step builds the Docker image, tags it with the repository path and the GitHub run ID, and then pushes it to the GitHub Container Registry. The job is configured to support multi-platform builds for the specified architecture.
 
+
+### JOB2: test-unit
+Let's break down the `test-unit` job:
+```yaml
+test-unit:
+        name: Unit tests in Docker
+        needs: [build-test-image]
+        runs-on: ubuntu-latest
+    
+        permissions:
+          packages: read
+          
+        steps:
+          
+          - name: Login to ghcr.io registry
+            uses: docker/login-action@v3
+            with:
+              registry: ghcr.io
+              username: ${{ github.actor }}
+              password: ${{ secrets.GITHUB_TOKEN }}
+          
+          - name: Unit Testing in Docker
+            run: docker run --rm ghcr.io/panchanandevops/docker-ci-automation:"$GITHUB_RUN_ID" echo "run test commands here"
+```
+In this job, we will test the docker image by running it.
 ### JOB2: scan-image
 Let's break down the `scan-image` job:
 
